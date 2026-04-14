@@ -54,7 +54,17 @@ def text_to_speech(model_name, speaker, input_path, output_path):
 if __name__ == "__main__":
     model_name = "tts_models/en/vctk/vits"
     speaker = input("Enter speaker ID (e.g., p260, p263): ").strip()
-    input_path = input("Enter input text file path: ").strip()
+    textORfile = input("Enter 'text' to input text directly or 'file' to provide a text file path: ").strip().lower()    
+    if textORfile == "text":
+        text = input("Enter the text to convert to speech: ").strip()
+        with open("temp_input.txt", "w", encoding="utf-8") as f:
+            f.write(text)
+        input_path = "temp_input.txt"
+    elif textORfile == "file":
+        input_path = input("Enter input text file path: ").strip()
+    else:
+        print("Invalid input. Please enter 'text' or 'file'.")
+        exit()
     output_path = input("Enter output audio file path (e.g., output.wav): ").strip()
 
     text_to_speech(model_name, speaker, input_path, output_path)

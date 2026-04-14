@@ -16,7 +16,7 @@ for spk in speakers:
         safe_name = safe_name.replace(ch, '_')
     out_path = os.path.join("outputs", "previews", f"{safe_name}.wav")
     tts.tts_to_file(
-        text=f"This is {spk}, the speaker model for Coqui TTS.",
+        text=f"This is {spk}, the speaker model for Coqui TTS. The quick brown fox jumps over the lazy dog.",
         file_path=out_path,
         speaker=spk
     )

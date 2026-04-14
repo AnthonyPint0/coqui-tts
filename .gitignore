@@ -37,3 +37,7 @@ Thumbs.db
 # Project-generated audio/output
 temp_audio/
 outputs/
+
+# Keep Placeholder folders
+input/*
+!input/.gitkeep

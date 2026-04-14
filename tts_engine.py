@@ -10,23 +10,43 @@ import os
 import tempfile
 import logging
 
+try:
+    import torch
+except Exception:  # pragma: no cover - torch may not be installed in some environments
+    torch = None
+
 logger = logging.getLogger(__name__)
 
 class TTSEngine:
-    def __init__(self, model_name: str = None):
-        """Initialize the TTS engine. If model_name is None, use the default installed model."""
+    def __init__(self, model_name: str = None, use_gpu: bool = None):
+        """Initialize the TTS engine.
+
+        If model_name is None, use the default installed model.
+        If use_gpu is None, auto-detect CUDA availability.
+        """
         self.model_name = model_name
+        self.use_gpu = self._resolve_use_gpu(use_gpu)
         self.tts = None
         self._load_model()
+
+    def _resolve_use_gpu(self, use_gpu: bool = None) -> bool:
+        if use_gpu is not None:
+            return bool(use_gpu)
+        if torch is None:
+            return False
+        try:
+            return bool(torch.cuda.is_available())
+        except Exception:
+            return False
 
     def _load_model(self):
         try:
             if self.model_name:
-                logger.info(f"Loading TTS model: {self.model_name}")
-                self.tts = TTS(self.model_name)
+                logger.info(f"Loading TTS model: {self.model_name} (gpu={self.use_gpu})")
+                self.tts = TTS(self.model_name, gpu=self.use_gpu)
             else:
-                logger.info("Loading default TTS model")
-                self.tts = TTS()
+                logger.info(f"Loading default TTS model (gpu={self.use_gpu})")
+                self.tts = TTS(gpu=self.use_gpu)
         except Exception as e:
             logger.exception("Failed to load TTS model")
             raise
