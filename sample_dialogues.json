@@ -1,0 +1,13 @@
+[
+  {
+    "speaker": "alloy",
+    "text": "Once upon a time, in a land far away, there lived a brave explorer who loved to learn new things.",
+    "speed": 1.0,
+    "volume": 1.0,
+    "pause_after": 200
+  },
+  {
+    "speaker": "alloy",
+    "text": "This is a longer paragraph meant to test chunking. "
+  }
+]

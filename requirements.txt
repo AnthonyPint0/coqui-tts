@@ -1,0 +1,5 @@
+gradio>=3.30
+TTS>=0.14.0
+pydub>=0.25.1
+tqdm>=4.64.0
+numpy
